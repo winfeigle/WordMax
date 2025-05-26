@@ -195,9 +195,12 @@ startBtn.addEventListener("click", () => {
   startBtn.classList.add("hidden");
   gameDiv.classList.remove("hidden");
 
+  document.getElementById("instructions-box").classList.add("hidden");
+
   generateLetters();
   revealLetters();
   startTimer();
+  wordInput.focus();
 });
 
 submitBtn.addEventListener("click", submitWord);
