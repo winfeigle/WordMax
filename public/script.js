@@ -1,3 +1,9 @@
+const SUPABASE_URL = 'https://eqbdorsomxcqzfjrljho.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxYmRvcnNvbXhjcXpmanJsamhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDEyMDcsImV4cCI6MjA2Mzg3NzIwN30.4AJRlutJB3_SpWMmcz9KGglVlC7YsVR7VbJ6rvKnKcQ';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+
 const startBtn = document.getElementById("start-btn");
 const gameDiv = document.getElementById("game");
 const blurredTiles = document.getElementById("blurred-tiles");
