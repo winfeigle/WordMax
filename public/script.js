@@ -4,6 +4,10 @@ const blurredTiles = document.getElementById("blurred-tiles");
 const lettersDiv = document.getElementById("letters");
 const wordInput = document.getElementById("word-input");
 const submitBtn = document.getElementById("submit-btn");
+const liveScoreDisplay = document.getElementById("live-score");
+
+wordInput.addEventListener("input", updateLiveScoreDisplay);
+
 const timerDisplay = document.getElementById("timer");
 const moonIcon = `
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -40,6 +44,35 @@ let timer;
 let timeLeft = 180;
 let letters = [];
 let liveScores = {};
+
+function updateLiveScoreDisplay() {
+  const word = wordInput.value.trim().toUpperCase();
+  const letterCounts = {};
+
+  letters.forEach(l => {
+    letterCounts[l] = (letterCounts[l] || 0) + 1;
+  });
+
+  let score = 0;
+  let valid = true;
+
+  for (let char of word) {
+    if (!letterCounts[char]) {
+      valid = false;
+      break;
+    }
+    score += liveScores[char] || 0;
+    letterCounts[char]--;
+  }
+
+  if (word.length === 0) {
+    liveScoreDisplay.classList.add("hidden");
+  } else {
+    liveScoreDisplay.classList.remove("hidden");
+    liveScoreDisplay.textContent = `Live Score: ${score}`;
+  }
+}
+
 
 function getGameNumber() {
   const launchDate = new Date("2025-05-26"); // your real start date
@@ -119,6 +152,8 @@ function startTimer() {
         setTimeout(() => scoreSpan.classList.remove("flash"), 1000);
       }
     }
+    
+    updateLiveScoreDisplay();
 
     const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
     const seconds = String(timeLeft % 60).padStart(2, '0');

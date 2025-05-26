@@ -154,6 +154,14 @@ h1 {
   transform-origin: center;
 }
 
+.live-score-display {
+  font-size: 0.95rem;
+  color: #8df1f4;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
+
+
 /* Input */
 .input-wrapper {
   max-width: 320px;
