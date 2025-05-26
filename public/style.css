@@ -37,6 +37,36 @@ h1 {
   letter-spacing: 0.5px;
 }
 
+/* Instructions box */
+.instructions-box {
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px auto;
+  max-width: 360px;
+  color: #ccc;
+  font-size: 0.95rem;
+  background-color: #1a1a1a;
+  line-height: 1.6; /* increases line spacing globally */
+}
+
+.instructions-box ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  text-align: left;
+}
+
+.instructions-box li {
+  margin-bottom: 6px;
+}
+
+.instructions-goal {
+  margin-bottom: 14px;
+  font-weight: bold;
+  color: #eee;
+}
+
 
 #blurred-tiles {
   font-size: 2rem;
@@ -50,9 +80,9 @@ h1 {
 
 #letters {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-  max-width: 240px;
+  max-width: 320px;
   margin: 0 auto 15px;
 }
 
@@ -111,8 +141,9 @@ h1 {
 
 
 .input-wrapper {
-  max-width: 280px; /* same as the tile grid */
-  padding: 20px;
+  max-width: 320px; /* same as the tile grid */
+  /* padding: 20px; */
+  padding: 25px 0px;
   margin: 0 auto 10px;
 }
 
@@ -175,3 +206,52 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+/* Results page */
+.result-container {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 40px 20px;
+  max-width: 400px;
+  width: 100%;
+  margin: 60px auto;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.result-title {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.result-date {
+  color: #aaa;
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+.score-box {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #8df1f4;
+  margin-bottom: 30px;
+}
+
+.result-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px auto;
+  font-size: 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.result-button:hover {
+  background-color: #444;
+}
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your WordMax Score</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container result-container">
+    <h2 class="result-title">Your WordMax Score for Game #<span id="game-number"></span></h2>
+    <p id="score-date" class="result-date"></p>
+    <div id="score-box" class="score-box"></div>
+
+    <button onclick="viewLeaderboard()" class="result-button">View Leaderboard</button>
+    <button onclick="shareScore()" class="result-button">Share</button>
+    <button onclick="playAgain()" class="result-button">Back to Game</button>
+  </div>
+
+  <script>
+    function getGameNumber() {
+      const launchDate = new Date("2025-05-26");
+      const today = new Date();
+      launchDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+      const msPerDay = 1000 * 60 * 60 * 24;
+      return Math.floor((today - launchDate) / msPerDay) + 1;
+    }
+
+    document.getElementById("game-number").textContent = getGameNumber();
+
+    const params = new URLSearchParams(window.location.search);
+    const score = params.get("score");
+    const word = params.get("word");
+
+    document.getElementById("score-box").textContent = `${score} points with "${word}"`;
+    document.getElementById("score-date").textContent = `Date: ${new Date().toLocaleDateString()}`;
+
+    function viewLeaderboard() {
+      alert("Leaderboard coming soon!");
+    }
+
+    function shareScore() {
+      const shareText = `I scored ${score} points in WordMax with "${word}"!`;
+      navigator.clipboard.writeText(shareText);
+      alert("Score copied to clipboard!");
+    }
+
+    function playAgain() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

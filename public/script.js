@@ -5,7 +5,6 @@ const lettersDiv = document.getElementById("letters");
 const wordInput = document.getElementById("word-input");
 const submitBtn = document.getElementById("submit-btn");
 const timerDisplay = document.getElementById("timer");
-const scoreDiv = document.getElementById("score");
 
 const BASE_SCORES = {
   A: 1, B: 3, C: 3, D: 2, E: 1, F: 4,
@@ -20,25 +19,17 @@ let timeLeft = 180;
 let letters = [];
 let liveScores = {};
 
-
 function getGameNumber() {
-  const launchDate = new Date("2025-05-26"); // ← set this to your real launch date
+  const launchDate = new Date("2025-05-26"); // your real start date
   const today = new Date();
-
-  // Strip time from both dates to compare just dates
   launchDate.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
-
   const msPerDay = 1000 * 60 * 60 * 24;
-  const diffDays = Math.floor((today - launchDate) / msPerDay);
-
-  return diffDays + 1; // Game #1 starts on launch day
+  return Math.floor((today - launchDate) / msPerDay) + 1;
 }
 
-document.getElementById("game-id").textContent = getGameNumber();
-
-
-document.getElementById("game-id").textContent = getGameNumber();
+const gameEl = document.getElementById("game-id");
+if (gameEl) gameEl.textContent = getGameNumber();
 
 
 function generateLetters() {
@@ -46,12 +37,12 @@ function generateLetters() {
   const consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
   letters = [];
 
-  while (letters.length < 2) {
+  while (letters.filter(l => "AEIOU".includes(l)).length < 3) {
     const randVowel = vowels[Math.floor(Math.random() * vowels.length)];
     if (!letters.includes(randVowel)) letters.push(randVowel);
   }
 
-  while (letters.length < 8) {
+  while (letters.length < 10) {
     const pool = vowels.concat(consonants);
     const randLetter = pool[Math.floor(Math.random() * pool.length)];
     if (!letters.includes(randLetter)) letters.push(randLetter);
@@ -98,8 +89,12 @@ function startTimer() {
       if (liveScores[letter] !== newScore && scoreSpan) {
         liveScores[letter] = newScore;
         scoreSpan.textContent = newScore;
+
+        scoreSpan.classList.remove("flash");
+        void scoreSpan.offsetWidth;
         scoreSpan.classList.add("flash");
-        setTimeout(() => scoreSpan.classList.remove("flash"), 800);
+
+        setTimeout(() => scoreSpan.classList.remove("flash"), 1000);
       }
     }
 
@@ -119,14 +114,14 @@ async function submitWord() {
   const word = wordInput.value.trim().toUpperCase();
 
   if (!word) {
-    scoreDiv.textContent = "❌ Please enter a word.";
+    alert("❌ Please enter a word.");
     return;
   }
 
   const tempLetters = [...letters];
   for (let char of word) {
     if (!tempLetters.includes(char)) {
-      scoreDiv.textContent = "❌ Invalid letters used.";
+      alert("❌ Invalid letters used.");
       return;
     }
     tempLetters.splice(tempLetters.indexOf(char), 1);
@@ -134,7 +129,7 @@ async function submitWord() {
 
   const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
   if (!response.ok) {
-    scoreDiv.textContent = "❌ Not a valid English word.";
+    alert("❌ Not a valid English word.");
     return;
   }
 
@@ -143,7 +138,8 @@ async function submitWord() {
     score += liveScores[char] || 0;
   }
 
-  scoreDiv.textContent = `✅ "${word}" scored ${score} points!`;
+  // Redirect to result page with query params
+  window.location.href = `result.html?score=${score}&word=${word}`;
 }
 
 startBtn.addEventListener("click", () => {
@@ -157,4 +153,3 @@ startBtn.addEventListener("click", () => {
 });
 
 submitBtn.addEventListener("click", submitWord);
-
