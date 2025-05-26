@@ -35,16 +35,17 @@
 
     document.getElementById("game-number").textContent = getGameNumber();
 
-    document.getElementById("game-number").textContent = getGameNumber();
-
     const params = new URLSearchParams(window.location.search);
     const score = params.get("score");
     const word = params.get("word");
 
+    if (!word || !score) {
+      window.location.href = "index.html";
+    }
+
     document.getElementById("word-display").textContent = word.toUpperCase();
     document.getElementById("score-box").textContent = `${score} points`;
     document.getElementById("score-date").textContent = new Date().toLocaleDateString();
-
 
     function viewLeaderboard() {
       alert("Leaderboard coming soon!");
@@ -60,6 +61,7 @@
       window.location.href = "index.html";
     }
   </script>
+
   <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
     <span id="theme-icon"></span>
   </button>

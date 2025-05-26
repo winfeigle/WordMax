@@ -232,3 +232,34 @@ themeToggle.addEventListener("click", () => {
   const isLight = body.classList.contains("light-mode");
   setTheme(isLight ? "dark" : "light");
 });
+
+
+// Animated tiles on intro screen
+const animatedTiles = document.querySelectorAll(".animated-tile");
+
+function randomLetter() {
+  const vowels = ["A", "E", "I", "O", "U"];
+  const consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
+  const alphabet = [...consonants, ...vowels, ...vowels]; // Vowels weighted 2x
+  return alphabet[Math.floor(Math.random() * alphabet.length)];
+}
+
+function randomDelay() {
+  return Math.floor(Math.random() * 4000) + 1000; // 1–5s
+}
+
+function startRandomCycle(tile) {
+  const letterSpan = tile.querySelector(".letter");
+  const badgeSpan = tile.querySelector(".score-badge");
+
+  const update = () => {
+    const newLetter = randomLetter();
+    letterSpan.textContent = newLetter;
+    badgeSpan.textContent = BASE_SCORES[newLetter] * 3;
+    setTimeout(update, randomDelay());
+  };
+
+  update();
+}
+
+animatedTiles.forEach(startRandomCycle);
