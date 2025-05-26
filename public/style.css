@@ -166,6 +166,12 @@ input[type="text"]:focus {
   box-shadow: 0 0 0 2px rgba(141, 241, 244, 0.2);
 }
 
+.error-message {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
 /* Buttons */
 button {
   padding: 10px 20px;

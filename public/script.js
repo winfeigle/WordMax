@@ -132,37 +132,63 @@ function startTimer() {
 }
 
 async function submitWord() {
-  clearInterval(timer);
   const word = wordInput.value.trim().toUpperCase();
+  const errorMessage = document.getElementById("error-message");
+
+  function showError(msg) {
+    errorMessage.textContent = msg;
+    errorMessage.classList.remove("hidden");
+  }
+
+  function clearError() {
+    errorMessage.textContent = "";
+    errorMessage.classList.add("hidden");
+  }
+
+  clearError();
 
   if (!word) {
-    alert("❌ Please enter a word.");
+    showError("❌ Please enter a word.");
     return;
   }
 
-  const tempLetters = [...letters];
+  // Check if the word uses only the given letters
+  const letterCounts = {};
+  for (let l of letters) letterCounts[l] = (letterCounts[l] || 0) + 1;
+
   for (let char of word) {
-    if (!tempLetters.includes(char)) {
-      alert("❌ Invalid letters used.");
+    if (!letterCounts[char]) {
+      showError("❌ Invalid letters used.");
       return;
     }
-    tempLetters.splice(tempLetters.indexOf(char), 1);
+    letterCounts[char]--;
   }
 
-  const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
-  if (!response.ok) {
-    alert("❌ Not a valid English word.");
+  // Check if it's a valid English word
+  try {
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
+    if (!response.ok) {
+      showError("❌ Not a valid English word.");
+      return;
+    }
+  } catch (err) {
+    showError("❌ Could not verify word. Please try again.");
     return;
   }
+
+  // Success — stop the timer and calculate score
+  clearInterval(timer);
 
   let score = 0;
   for (let char of word) {
     score += liveScores[char] || 0;
   }
 
-  // Redirect to result page with query params
+  // Redirect to result page
   window.location.href = `result.html?score=${score}&word=${word}`;
 }
+
+
 
 startBtn.addEventListener("click", () => {
   blurredTiles.classList.add("hidden");
