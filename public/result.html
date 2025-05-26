@@ -8,9 +8,15 @@
 </head>
 <body>
   <div class="container result-container">
-    <h2 class="result-title">Your WordMax Score for Game #<span id="game-number"></span></h2>
-    <p id="score-date" class="result-date"></p>
-    <div id="score-box" class="score-box"></div>
+    <h1 class="result-heading">WordMax</h1>
+    <p class="result-subheading">
+      Game #<span id="game-number"></span> results • Completed <span id="score-date"></span>
+    </p>
+
+    <div class="word-score-box">
+      <div class="result-word" id="word-display"></div>
+      <div class="result-points" id="score-box"></div>
+    </div>
 
     <button onclick="viewLeaderboard()" class="result-button">View Leaderboard</button>
     <button onclick="shareScore()" class="result-button">Share</button>
@@ -29,12 +35,16 @@
 
     document.getElementById("game-number").textContent = getGameNumber();
 
+    document.getElementById("game-number").textContent = getGameNumber();
+
     const params = new URLSearchParams(window.location.search);
     const score = params.get("score");
     const word = params.get("word");
 
-    document.getElementById("score-box").textContent = `${score} points with "${word}"`;
-    document.getElementById("score-date").textContent = `Date: ${new Date().toLocaleDateString()}`;
+    document.getElementById("word-display").textContent = word.toUpperCase();
+    document.getElementById("score-box").textContent = `${score} points`;
+    document.getElementById("score-date").textContent = new Date().toLocaleDateString();
+
 
     function viewLeaderboard() {
       alert("Leaderboard coming soon!");
