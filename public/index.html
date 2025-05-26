@@ -10,13 +10,16 @@
   <body>
     <div class="container">
       <h1>WordMax</h1>
+      <div id="game-number">Game #<span id="game-id">...</span></div>
 
       <div id="blurred-tiles">🔒🔒🔒🔒🔒🔒🔒🔒</div>
       <button id="start-btn">Start</button>
 
       <div id="game" class="hidden">
         <div id="letters"></div>
-        <input type="text" id="word-input" placeholder="Enter your word" />
+          <div class="input-wrapper">
+            <input type="text" id="word-input" placeholder="Enter your word" />
+          </div>
         <button id="submit-btn">Submit</button>
         <div id="timer">03:00</div>
       </div>

@@ -20,6 +20,27 @@ let timeLeft = 180;
 let letters = [];
 let liveScores = {};
 
+
+function getGameNumber() {
+  const launchDate = new Date("2025-05-26"); // ← set this to your real launch date
+  const today = new Date();
+
+  // Strip time from both dates to compare just dates
+  launchDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  const msPerDay = 1000 * 60 * 60 * 24;
+  const diffDays = Math.floor((today - launchDate) / msPerDay);
+
+  return diffDays + 1; // Game #1 starts on launch day
+}
+
+document.getElementById("game-id").textContent = getGameNumber();
+
+
+document.getElementById("game-id").textContent = getGameNumber();
+
+
 function generateLetters() {
   const vowels = ["A", "E", "I", "O", "U"];
   const consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
@@ -136,3 +157,4 @@ startBtn.addEventListener("click", () => {
 });
 
 submitBtn.addEventListener("click", submitWord);
+

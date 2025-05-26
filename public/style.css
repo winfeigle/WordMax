@@ -4,8 +4,9 @@
   padding: 0;
 }
 
+
 body {
-  margin-top: 10%;
+  margin: 10%;
   font-family: Arial, sans-serif;
   background-color: #121212;
   color: #fff;
@@ -28,6 +29,15 @@ h1 {
   font-size: 2rem;
 }
 
+#game-number {
+  margin-top: -12px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  color: #aaa;
+  letter-spacing: 0.5px;
+}
+
+
 #blurred-tiles {
   font-size: 2rem;
   letter-spacing: 8px;
@@ -35,23 +45,21 @@ h1 {
 }
 
 #game {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 #letters {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: nowrap;
-  overflow: visible; /* allow badge overflow */
-  margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 240px;
+  margin: 0 auto 15px;
 }
-
 
 .tile {
   position: relative;
-  width: 42px;
-  height: 42px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background-color: #f0e6d2;
   color: #000;
   border-radius: 8px;
@@ -62,8 +70,10 @@ h1 {
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   user-select: none;
-  overflow: visible; 
+  overflow: visible;
 }
+
+
 
 .score-badge {
   position: absolute;
@@ -83,17 +93,48 @@ h1 {
 }
 
 
-.score-badge.flash {
-  background-color: #ff4d4d;
+@keyframes pulse-scale {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.4); }
+  40%  { transform: scale(0.9); }
+  60%  { transform: scale(1.2); }
+  80%  { transform: scale(1); }
+  100% { transform: scale(1); }
 }
 
 
+.score-badge.flash {
+  background-color: #ff4d4d;
+  animation: pulse-scale 1.5s ease;
+  transform-origin: center;
+}
+
+
+.input-wrapper {
+  max-width: 280px; /* same as the tile grid */
+  padding: 20px;
+  margin: 0 auto 10px;
+}
 
 input[type="text"] {
-  padding: 10px;
+  padding: 12px 14px;
   width: 100%;
-  margin-bottom: 10px;
   font-size: 1rem;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border: 2px solid #333;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]::placeholder {
+  color: #777;
+}
+
+input[type="text"]:focus {
+  border-color: #8df1f4;
+  box-shadow: 0 0 0 2px rgba(141, 241, 244, 0.2);
 }
 
 button {
