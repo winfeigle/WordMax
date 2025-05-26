@@ -9,7 +9,7 @@
 body {
   margin: 10%;
   font-family: Arial, sans-serif;
-  background-color: #121212;
+  background-color: #232228;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -41,12 +41,12 @@ h1 {
 
 /* Instructions */
 .instructions-box {
-  border: 1px solid #444;
+  border: 1px solid #253235;
   border-radius: 6px;
   padding: 16px 20px;
   margin: 20px auto;
   max-width: 360px;
-  background-color: #1a1a1a;
+  background-color: #151419;
   font-size: 0.95rem;
   color: #ccc;
   line-height: 1.8;
@@ -67,13 +67,15 @@ h1 {
   margin-bottom: 18px;
   font-weight: bold;
   color: #eee;
+  text-align: left;
 }
 
 /* Animated intro letters */
 #blurred-tiles .tile {
   margin: 20px 0px;
-  background: linear-gradient(135deg, #6e44ff, #b892ff);
-  color: #fff;
+  background: #253235;
+  color: #8ef2f5;
+  border: solid #8ef2f5 1px;
 }
 
 .animated-tiles-grid {
@@ -109,9 +111,10 @@ h1 {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #f0e6d2;
-  color: #000;
+  background: #253235;
+  color: #8ef2f5;
   border-radius: 8px;
+  /* border: solid #8ef2f5 1px; */
   font-size: 1.25rem;
   font-weight: bold;
   display: flex;
@@ -126,16 +129,16 @@ h1 {
   position: absolute;
   top: -10px;
   right: -10px;
-  background-color: #61554c;
+  background-color: #1b2527;
   color: white;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: bold;
   border-radius: 50%;
   padding: 4px 6px;
   min-width: 18px;
   text-align: center;
   line-height: 1;
-  box-shadow: 0 0 0 2px #121212;
+  /* box-shadow: 0 0 0 2px #121212; */
   transition: background-color 0.3s ease;
 }
 
@@ -173,16 +176,16 @@ input[type="text"] {
   padding: 12px 14px;
   width: 100%;
   font-size: 1rem;
-  background-color: #1e1e1e;
+  background-color: #151419;
   color: #ffffff;
-  border: 2px solid #333;
+  border: 2px solid #253235;
   border-radius: 6px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 input[type="text"]::placeholder {
-  color: #777;
+  color: #787878;
 }
 
 input[type="text"]:focus {
@@ -193,7 +196,7 @@ input[type="text"]:focus {
 .error-message {
   color: #ff4d4d;
   font-size: 0.9rem;
-  margin-top: 10px;
+  margin: 10px;
 }
 
 /* Buttons */
@@ -212,6 +215,27 @@ button {
 button:hover {
   background-color: #444;
 }
+
+.secondary-button {
+  background-color: transparent;
+  color: #aaa;
+  border: 1px solid #444;
+  margin-top: 20px;
+}
+
+.secondary-button:hover {
+  background-color: #222;
+  color: #fff;
+}
+
+/* #submit-btn{
+  width: 200px;
+} */
+
+#back-home-btn{
+  margin-top: 10px
+}
+
 
 #timer {
   font-size: 1.2rem;

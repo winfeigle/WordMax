@@ -202,7 +202,6 @@ async function submitWord() {
 }
 
 
-
 startBtn.addEventListener("click", () => {
   blurredTiles.classList.add("hidden");
   startBtn.classList.add("hidden");
@@ -217,6 +216,22 @@ startBtn.addEventListener("click", () => {
 });
 
 submitBtn.addEventListener("click", submitWord);
+
+const backHomeBtn = document.getElementById("back-home-btn");
+
+backHomeBtn.addEventListener("click", () => {
+  clearInterval(timer); // stop timer if running
+  timeLeft = 180;
+  wordInput.value = "";
+  liveScoreDisplay.classList.add("hidden");
+
+  // Reset UI views
+  gameDiv.classList.add("hidden");
+  blurredTiles.classList.remove("hidden");
+  startBtn.classList.remove("hidden");
+  document.getElementById("instructions-box").classList.remove("hidden");
+});
+
 
 
 // Animated tiles on intro screen
