@@ -88,9 +88,19 @@ h1,
 }
 
 #blurred-tiles .tile {
-  margin: 20px 0px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background: var(--bg-tile);
   color: var(--accent-aqua);
+  border-radius: 8px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  overflow: visible;
   border: 1px solid var(--accent-aqua);
 }
 
