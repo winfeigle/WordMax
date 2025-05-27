@@ -4,25 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WordMax</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
     <script src="script.js" defer></script>
   </head>
   <body>
     <div class="container">
-      <h1>WordMax</h1>
+      <h1>wordmax</h1>
       <div id="game-number">Game #<span id="game-id"></span></div>
-      <div class="instructions-box" id="instructions-box">
-        <p class="instructions-goal">Your goal is to create the highest-scoring word possible using the 10 letters shown.</p>
-        <ul>
-          <li>You’ll have 3 minutes once you start.</li>
-          <li>Each letter has a point value that decreases over time.</li>
-          <li>You can only use each letter once.</li>
-          <li>Your word must be valid English.</li>
-        </ul>
-      </div>
-
-
       <div id="blurred-tiles" class="animated-tiles-grid">
         <div class="tile animated-tile">
           <span class="letter">A</span>
@@ -44,6 +34,15 @@
           <span class="letter">E</span>
           <span class="score-badge">5</span>
         </div>
+      </div>
+      <div class="instructions-box" id="instructions-box">
+        <p class="instructions-goal">Your goal is to create the highest-scoring word possible using the 10 letters of the day.</p>
+        <ul>
+          <li>You’ll have 3 minutes once you start.</li>
+          <li>Each letter has a point value that decreases over time.</li>
+          <li>You can only use each letter once.</li>
+          <li>Your word must be valid English.</li>
+        </ul>
       </div>
 
       <button id="start-btn">Start the clock!</button>
