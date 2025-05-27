@@ -10,6 +10,8 @@
   --accent-medium-grey: #999999;
   --accent-aqua: #8df3f7;
   --accent-dark-aqua: #233135;
+  --accent-coral: #ea7b50;
+  --accent-dark-coral: #352927;
   --bg-callout: #2d2d2d;
   --text-secondary: #888;
   --text-muted: #aaa;
@@ -59,7 +61,7 @@ h1,
 }
 
 .instructions-box {
-  border: 1px solid var(--bg-tile);
+  border: 1px solid var(--accent-dark-coral);
   border-radius: 6px;
   padding: 16px 20px;
   margin: 20px auto;
@@ -92,8 +94,8 @@ h1,
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: var(--bg-tile);
-  color: var(--accent-aqua);
+  background: var(--accent-dark-coral);
+  color: var(--accent-coral);
   border-radius: 8px;
   font-size: 1.25rem;
   font-weight: bold;
@@ -102,7 +104,7 @@ h1,
   justify-content: center;
   user-select: none;
   overflow: visible;
-  border: 1px solid var(--accent-aqua);
+  border: 1px solid var(--accent-coral);
 }
 
 .animated-tiles-grid {
