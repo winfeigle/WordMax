@@ -208,16 +208,13 @@ async function submitWord() {
     return;
   }
 
-  // Check if the word uses only the given letters
-  const letterCounts = {};
-  for (let l of letters) letterCounts[l] = (letterCounts[l] || 0) + 1;
-
+  // ✅ NEW: Check that all letters are from the allowed set
+  const allowedLetters = new Set(letters);
   for (let char of word) {
-    if (!letterCounts[char]) {
-      showError("❌ Invalid letters used.");
+    if (!allowedLetters.has(char)) {
+      showError("❌ Word contains letters not in today’s set.");
       return;
     }
-    letterCounts[char]--;
   }
 
   // Check if it's a valid English word
@@ -232,9 +229,9 @@ async function submitWord() {
     return;
   }
 
-  // Success — stop the timer and calculate score
   clearInterval(timer);
 
+  // Score based on total letter value (can reuse letters!)
   let score = 0;
   for (let char of word) {
     score += liveScores[char] || 0;
@@ -248,14 +245,11 @@ async function submitWord() {
       score
     }
   ]);
+  if (scoreError) console.error("Error saving score:", scoreError);
 
-  if (scoreError) {
-    console.error("Error saving score:", scoreError);
-  }
-
-  // Redirect to result page
   window.location.href = `result.html?score=${score}&word=${word}`;
 }
+
 
 
 startBtn.addEventListener("click", () => {
