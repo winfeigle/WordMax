@@ -51,7 +51,10 @@
           <div class="input-wrapper">
             <input type="text" id="word-input" placeholder="Enter your word" />
           </div>
-        <div id="live-score" class="live-score-display hidden">Live Score: 0</div>
+        <div id="live-score" class="live-score-display">
+          <span class="live-dot"></span>
+          Live Score: <span id="live-score-number">0</span>
+        </div>
         <div id="error-message" class="error-message hidden"></div>
         <button id="submit-btn">Submit</button>
         <div id="timer">03:00</div>

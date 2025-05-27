@@ -48,13 +48,8 @@ function updateLiveScoreDisplay() {
     score += liveScores[char] || 0;
     letterCounts[char]--;
   }
+  document.getElementById("live-score-number").textContent = score;
 
-  if (word.length === 0) {
-    liveScoreDisplay.classList.add("hidden");
-  } else {
-    liveScoreDisplay.classList.remove("hidden");
-    liveScoreDisplay.textContent = `Live Score: ${score}`;
-  }
 }
 
 
