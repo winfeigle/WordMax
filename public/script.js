@@ -71,36 +71,73 @@ const gameEl = document.getElementById("game-id");
 if (gameEl) gameEl.textContent = getGameNumber();
 
 
-function generateLetters() {
-  const vowels = ["A", "E", "I", "O", "U"];
-  const consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
-  letters = [];
+async function generateLetters() {
+  const gameNumber = getGameNumber();
 
-  while (letters.filter(l => "AEIOU".includes(l)).length < 3) {
-    const randVowel = vowels[Math.floor(Math.random() * vowels.length)];
-    if (!letters.includes(randVowel)) letters.push(randVowel);
-  }
+  // 1. Check if letters already exist for this game
+  const { data, error } = await supabase
+  .from('games')
+  .select('letters')
+  .eq('game_number', gameNumber)
+  .single();
 
-  while (letters.length < 10) {
-    const pool = vowels.concat(consonants);
-    const randLetter = pool[Math.floor(Math.random() * pool.length)];
-    if (!letters.includes(randLetter)) letters.push(randLetter);
-  }
 
-  if (letters.includes("Q") && !letters.includes("U")) {
-    for (let i = 0; i < letters.length; i++) {
-      if (consonants.includes(letters[i]) && letters[i] !== "Q") {
-        letters[i] = "U";
-        break;
+  if (data && data.letters) {
+    letters = data.letters;
+    console.log(`Using existing letters for Game #${gameNumber}`, letters);
+  } else {
+    // 2. Generate new unique letters
+    const vowels = ["A", "E", "I", "O", "U"];
+    const consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
+    letters = [];
+
+    const letterPool = [...vowels, ...consonants];
+
+    // Add 10 unique letters
+    while (letters.length < 10) {
+      const randLetter = letterPool[Math.floor(Math.random() * letterPool.length)];
+      if (!letters.includes(randLetter)) {
+        letters.push(randLetter);
       }
+    }
+
+    // Ensure at least 3 vowels
+    while (letters.filter(l => vowels.includes(l)).length < 3) {
+      const consonantIndex = letters.findIndex(l => consonants.includes(l));
+      if (consonantIndex !== -1) {
+        const randVowel = vowels[Math.floor(Math.random() * vowels.length)];
+        letters[consonantIndex] = randVowel;
+      }
+    }
+
+    // Ensure Q comes with U
+    if (letters.includes("Q") && !letters.includes("U")) {
+      const replaceIndex = letters.findIndex(l => l !== "Q" && consonants.includes(l));
+      if (replaceIndex !== -1) {
+        letters[replaceIndex] = "U";
+      }
+    }
+
+    // 3. Insert into Supabase
+    const { error: insertError } = await supabase
+      .from('games')
+      .insert([{ game_number: gameNumber, letters }]);
+
+    if (insertError) {
+      console.error("Error inserting new letters:", insertError);
+    } else {
+      console.log(`Inserted new letters for Game #${gameNumber}`, letters);
     }
   }
 
+  // 4. Set liveScores
   letters.forEach(letter => {
     const base = BASE_SCORES[letter] || 0;
     liveScores[letter] = base * 3;
   });
 }
+
+
 
 function revealLetters() {
   lettersDiv.innerHTML = letters
@@ -203,6 +240,19 @@ async function submitWord() {
     score += liveScores[char] || 0;
   }
 
+  // Save to Supabase
+  const { error: scoreError } = await supabase.from('scores').insert([
+    {
+      game_number: getGameNumber(),
+      word,
+      score
+    }
+  ]);
+
+  if (scoreError) {
+    console.error("Error saving score:", scoreError);
+  }
+
   // Redirect to result page
   window.location.href = `result.html?score=${score}&word=${word}`;
 }
@@ -215,10 +265,11 @@ startBtn.addEventListener("click", () => {
 
   document.getElementById("instructions-box").classList.add("hidden");
 
-  generateLetters();
-  revealLetters();
-  startTimer();
-  wordInput.focus();
+  generateLetters().then(() => {
+    revealLetters();
+    startTimer();
+    wordInput.focus();
+  });
 });
 
 submitBtn.addEventListener("click", submitWord);
