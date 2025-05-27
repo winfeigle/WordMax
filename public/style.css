@@ -102,6 +102,7 @@ h1,
   user-select: none;
   overflow: visible;
   border: 1px solid var(--accent-aqua);
+  margin: 20px 0px;
 }
 
 .animated-tiles-grid {
