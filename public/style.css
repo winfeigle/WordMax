@@ -304,6 +304,17 @@ footer a:hover {
   margin-right: auto;
 }
 
+.callout {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: #332827;
+  color: #ea7a54;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+
 .result-word {
   font-size: 2rem;
   font-weight: bold;

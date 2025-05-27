@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Your WordMax Score</title>
   <link rel="stylesheet" href="style.css" />
+  
+  <!-- Load Supabase client library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
 </head>
 <body>
   <div class="container result-container">
@@ -16,6 +19,7 @@
     <div class="word-score-box">
       <div class="result-word" id="word-display"></div>
       <div class="result-points" id="score-box"></div>
+      <div id="ranking-callout" class="callout hidden"></div>
     </div>
 
     <button onclick="viewLeaderboard()" class="result-button">View Leaderboard</button>
@@ -24,6 +28,11 @@
   </div>
 
   <script>
+    const SUPABASE_URL = 'https://eqbdorsomxcqzfjrljho.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxYmRvcnNvbXhjcXpmanJsamhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDEyMDcsImV4cCI6MjA2Mzg3NzIwN30.4AJRlutJB3_SpWMmcz9KGglVlC7YsVR7VbJ6rvKnKcQ';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     function getGameNumber() {
       const launchDate = new Date("2025-05-26");
       const today = new Date();
@@ -46,6 +55,30 @@
     document.getElementById("word-display").textContent = word.toUpperCase();
     document.getElementById("score-box").textContent = `${score} points`;
     document.getElementById("score-date").textContent = new Date().toLocaleDateString();
+    const rankingCallout = document.getElementById("ranking-callout");
+
+    async function loadLeaderboardRank() {
+      const gameNumber = getGameNumber();
+      const { data, error } = await supabase
+        .from('scores')
+        .select('word, score')
+        .eq('game_number', gameNumber)
+        .order('score', { ascending: false });
+
+      if (error) return;
+
+      const index = data.findIndex(entry =>
+        entry.word.toUpperCase() === word.toUpperCase() &&
+        parseInt(entry.score) === parseInt(score)
+      );
+
+      if (index !== -1) {
+        rankingCallout.classList.remove("hidden");
+        rankingCallout.textContent = `You're #${index + 1} on today’s leaderboard!`;
+      }
+    }
+
+    loadLeaderboardRank();
 
     function viewLeaderboard() {
       const gameNumber = getGameNumber();
