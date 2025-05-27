@@ -48,7 +48,8 @@
     document.getElementById("score-date").textContent = new Date().toLocaleDateString();
 
     function viewLeaderboard() {
-      alert("Leaderboard coming soon!");
+      const gameNumber = getGameNumber();
+      window.location.href = `leaderboard.html?game=${gameNumber}`;
     }
 
     function shareScore() {

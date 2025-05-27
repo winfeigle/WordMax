@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WordMax Leaderboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <div class="container result-container">
+    <h1 class="result-heading">Leaderboard</h1>
+    <p class="result-subheading">Game #<span id="game-number"></span></p>
+
+    <div id="leaderboard" class="word-score-box">Loading...</div>
+    <button class="result-button" onclick="goHome()">Back to Home</button>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://eqbdorsomxcqzfjrljho.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxYmRvcnNvbXhjcXpmanJsamhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDEyMDcsImV4cCI6MjA2Mzg3NzIwN30.4AJRlutJB3_SpWMmcz9KGglVlC7YsVR7VbJ6rvKnKcQ';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const params = new URLSearchParams(window.location.search);
+    const leaderboardDiv = document.getElementById("leaderboard");
+    const gameNumEl = document.getElementById("game-number");
+
+    function getGameNumber() {
+      const launchDate = new Date("2025-05-26");
+      const today = new Date();
+      launchDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+      const msPerDay = 1000 * 60 * 60 * 24;
+      return Math.floor((today - launchDate) / msPerDay) + 1;
+    }
+
+    async function loadLeaderboard(gameNumber) {
+      gameNumEl.textContent = gameNumber;
+
+      const { data, error } = await supabase
+        .from("scores")
+        .select("word, score")
+        .eq("game_number", gameNumber)
+        .order("score", { ascending: false })
+        .limit(5);
+
+      if (error) {
+        leaderboardDiv.textContent = "Failed to load leaderboard.";
+        console.error(error);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        leaderboardDiv.textContent = "No scores submitted yet.";
+        return;
+      }
+
+      leaderboardDiv.innerHTML = `
+        <ol style="padding-left: 1.2rem; text-align: left;">
+          ${data.map(entry => `<li><strong>${entry.word}</strong> — ${entry.score} pts</li>`).join("")}
+        </ol>
+      `;
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+
+    // Determine which game number to load
+    const gameParam = parseInt(params.get("game"));
+    const gameNumber = Number.isInteger(gameParam) ? gameParam : getGameNumber();
+    loadLeaderboard(gameNumber);
+  </script>
+</body>
+</html>
